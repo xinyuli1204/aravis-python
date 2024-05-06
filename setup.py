@@ -34,12 +34,13 @@ def main():
     package_data: List[str] = []
 
     if platform.system() == 'Windows':
-        package_data = ["bin/*"]
+        pkg_path = os.path.join(os.path.dirname(__file__), 'aravis\lib\pkg_path')
+        os.environ["PKG_CONFIG_PATH"] = pkg_path
+        package_data = extra_files
     elif platform.system() == 'Darwin':
-        package_data =  extra_files
 
     elif platform.system() == 'Linux':
-        package_data =   ["bin/*"]
+        package_data = []
 
     setup(
         name="aravis-python",
@@ -60,7 +61,7 @@ def main():
         ],
         description="Python Binding for ion-kit",
         package_data={"aravis": package_data},
-        install_requires=["numpy>=1.24"],
+        install_requires=["pygobject"],
         # ext_modules=EmptyListWithLength(),
         include_package_data=False,
 
