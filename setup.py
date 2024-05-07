@@ -6,8 +6,8 @@ from typing import List
 import platform
 import sysconfig
 import os
-
 from setuptools._distutils.util import convert_path
+
 def package_files(directorys):
     paths = []
     for directory in directorys:
@@ -16,7 +16,7 @@ def package_files(directorys):
                 paths.append(os.path.join('..', path, filename))
     return paths
 
-extra_files = package_files(['aravis/bin','aravis/include'])
+extra_files = package_files(['aravis/bin', 'aravis/include', 'aravis/lib'])
 
 def get_version():
     if os.environ.get("ARAVIS_VERSION") is not None:
@@ -29,15 +29,16 @@ def get_version():
         tag = main_ns["__version__"]
     return tag
 
+
 def main():
     long_description = io.open("README.md", encoding="utf-8").read()
     package_data: List[str] = []
 
     if platform.system() == 'Windows':
-        pkg_path = os.path.join(os.path.dirname(__file__), 'aravis\lib\pkg_path')
-        os.environ["PKG_CONFIG_PATH"] = pkg_path
+
         package_data = extra_files
     elif platform.system() == 'Darwin':
+        pass
 
     elif platform.system() == 'Linux':
         package_data = []
@@ -53,15 +54,14 @@ def main():
             "Development Status :: 3 - Alpha",
             "Programming Language :: Python :: 3",
             "Programming Language :: Python :: 3 :: Only",
-            "Programming Language :: Python :: 3.8",
             "Programming Language :: Python :: 3.9",
             "Programming Language :: Python :: 3.10",
             "Programming Language :: Python :: 3.11",
             "Programming Language :: Python :: 3.12",
         ],
-        description="Python Binding for ion-kit",
+        description="Python Binding for aravis",
         package_data={"aravis": package_data},
-        install_requires=["pygobject"],
+        install_requires=[],
         # ext_modules=EmptyListWithLength(),
         include_package_data=False,
 
