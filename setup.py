@@ -16,7 +16,7 @@ def package_files(directorys):
                 paths.append(os.path.join('..', path, filename))
     return paths
 
-extra_files = package_files(['aravis/bin'])
+extra_files = package_files(['aravis/bin','aravis/lib'])
 
 def get_version():
     if os.environ.get("ARAVIS_VERSION") is not None:
