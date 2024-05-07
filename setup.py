@@ -23,7 +23,7 @@ def get_version():
         tag = os.environ.get("ARAVIS_VERSION_VERSION")
     else:
         main_ns = {}
-        ver_path = convert_path('./ionpy/version.py')
+        ver_path = convert_path('./aravis/version.py')
         with open(ver_path) as ver_file:
             exec(ver_file.read(), main_ns)
         tag = main_ns["__version__"]
@@ -43,6 +43,7 @@ def main():
 
     setup(
         name="aravis-python",
+        version=get_version(),
         long_description=long_description,
         long_description_content_type="text/markdown",
         python_requires=">=3.9.0",
