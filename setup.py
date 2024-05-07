@@ -16,7 +16,7 @@ def package_files(directorys):
                 paths.append(os.path.join('..', path, filename))
     return paths
 
-extra_files = package_files(['aravis/bin', 'aravis/include', 'aravis/lib'])
+extra_files = package_files(['aravis/bin'])
 
 def get_version():
     if os.environ.get("ARAVIS_VERSION") is not None:
@@ -29,17 +29,15 @@ def get_version():
         tag = main_ns["__version__"]
     return tag
 
-
 def main():
     long_description = io.open("README.md", encoding="utf-8").read()
     package_data: List[str] = []
 
-    if platform.system() == 'Windows':
 
+    if platform.system() == 'Windows':
         package_data = extra_files
     elif platform.system() == 'Darwin':
-        pass
-
+        package_data = []
     elif platform.system() == 'Linux':
         package_data = []
 
@@ -47,8 +45,7 @@ def main():
         name="aravis-python",
         long_description=long_description,
         long_description_content_type="text/markdown",
-        url="https://github.com/fixstars/ion-kit",
-        python_requires=">=3.8.0",
+        python_requires=">=3.9.0",
         packages=["aravis"],
         classifiers=[
             "Development Status :: 3 - Alpha",
