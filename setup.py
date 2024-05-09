@@ -16,7 +16,13 @@ def package_files(directorys):
                 paths.append(os.path.join('..', path, filename))
     return paths
 
-extra_files = package_files(['aravis/bin','aravis/lib'])
+def get_plat():
+    if platform.system() == 'Linux':
+        plat_form = "manylinux1_x86_64"
+    else:
+        plat_form = sysconfig.get_platform()
+    return plat_form
+
 
 def get_version():
     if os.environ.get("ARAVIS_VERSION") is not None:
@@ -33,13 +39,14 @@ def main():
     long_description = io.open("README.md", encoding="utf-8").read()
     package_data: List[str] = []
 
-
+    extra_files = []
     if platform.system() == 'Windows':
-        package_data = extra_files
+        extra_files = package_files(['aravis/bin', 'aravis/lib'])
     elif platform.system() == 'Darwin':
-        package_data = []
+        extra_files = package_files(['aravis/lib'])
     elif platform.system() == 'Linux':
-        package_data = []
+        extra_files = package_files(['aravis/lib'])
+    package_data = extra_files
 
     setup(
         name="aravis-python",
@@ -62,7 +69,12 @@ def main():
         install_requires=[],
         # ext_modules=EmptyListWithLength(),
         include_package_data=False,
-
+        options={
+            "bdist_wheel": {
+                "plat_name": get_plat(),
+                "python_tag": "py3",
+            },
+        },
     )
 
 
